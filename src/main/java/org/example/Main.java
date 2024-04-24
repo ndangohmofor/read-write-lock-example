@@ -90,12 +90,7 @@ public class Main {
         public void addItem(int price) {
             writeLock.lock();
             try {
-                Integer numberOfItemsForPrice = priceToCountMap.get(price);
-                if (numberOfItemsForPrice == null) {
-                    priceToCountMap.put(price, 1);
-                } else {
-                    priceToCountMap.put(price, numberOfItemsForPrice + 1);
-                }
+                priceToCountMap.merge(price, 1, Integer::sum);
             } finally {
                 writeLock.unlock();
             }
